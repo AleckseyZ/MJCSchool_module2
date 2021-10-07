@@ -24,7 +24,7 @@ public class TagControllerImpl implements TagController {
 
     @Override
     public Tag getById(long targetId) {
-        Optional<Tag> tag = tagService.getById(Math.toIntExact(targetId));
+        Optional<Tag> tag = tagService.getById(targetId);
         return tag.get();
     }
 
@@ -35,6 +35,6 @@ public class TagControllerImpl implements TagController {
 
     @Override
     public boolean delete(long targetId) {
-        return tagService.delete(Math.toIntExact(targetId));
+        return tagService.delete(targetId);
     }
 }

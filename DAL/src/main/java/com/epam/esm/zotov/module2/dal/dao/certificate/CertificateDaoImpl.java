@@ -34,7 +34,7 @@ public class CertificateDaoImpl implements CertificateDao {
     }
 
     @Override
-    public Optional<Certificate> getById(int id) {
+    public Optional<Certificate> getById(long id) {
         Optional<Certificate> certificate = Optional
                 .of(jdbcTemplate.queryForObject(findByIdQuerry, certificateMapper, id));
         return certificate;
@@ -42,14 +42,14 @@ public class CertificateDaoImpl implements CertificateDao {
 
     @Override
     public boolean save(Certificate object) {
-        int result = jdbcTemplate.update(insertQuerry, object.getDescription(), object.getPrice(), object.getDuration(),
+        long result = jdbcTemplate.update(insertQuerry, object.getDescription(), object.getPrice(), object.getDuration(),
                 object.getCreateDate(), object.getLastUpdateDate());
         return result == 1;
     }
 
     @Override
-    public boolean delete(int id) {
-        int result = jdbcTemplate.update(deleteQuerry, id);
+    public boolean delete(long id) {
+        long result = jdbcTemplate.update(deleteQuerry, id);
         return result == 1;
     }
 

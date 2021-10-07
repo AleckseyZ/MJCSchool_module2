@@ -34,20 +34,20 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public Optional<Tag> getById(int id) {
+    public Optional<Tag> getById(long id) {
         Optional<Tag> tag = Optional.of(jdbcTemplate.queryForObject(findByIdQuerry, tagMapper, id));
         return tag;
     }
 
     @Override
     public boolean save(Tag object) {
-        int result = jdbcTemplate.update(insertQuerry, object.getTagName());
+        long result = jdbcTemplate.update(insertQuerry, object.getTagName());
         return result == 1;
     }
 
     @Override
-    public boolean delete(int id) {
-        int result = jdbcTemplate.update(deleteQuerry, id);
+    public boolean delete(long id) {
+        long result = jdbcTemplate.update(deleteQuerry, id);
         return result == 1;
     }
 }
