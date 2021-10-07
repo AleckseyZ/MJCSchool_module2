@@ -7,6 +7,7 @@ import com.epam.esm.zotov.module2.api.controller.CrdController;
 import com.epam.esm.zotov.module2.dal.model.Certificate;
 
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,5 +18,5 @@ public interface CertificateController extends CrdController<Certificate> {
     public List<Object> search(@RequestParam Map<String,String> requestParams);
 
     @PutMapping
-    public boolean selectiveUpdate(Certificate updatedCertificate);
+    public boolean selectiveUpdate(@RequestBody Certificate updatedCertificate);
 }
