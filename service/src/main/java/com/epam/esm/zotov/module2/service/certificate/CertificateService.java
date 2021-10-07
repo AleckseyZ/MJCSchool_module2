@@ -1,8 +1,8 @@
 package com.epam.esm.zotov.module2.service.certificate;
 
 import com.epam.esm.zotov.module2.dal.model.Certificate;
-import com.epam.esm.zotov.module2.service.crdService;
+import com.epam.esm.zotov.module2.service.CrdService;
 
-public interface CertificateService extends crdService<Certificate> {
+public interface CertificateService extends CrdService<Certificate> {
     public boolean selectiveUpdate(Certificate updatedCertificate);
 }
