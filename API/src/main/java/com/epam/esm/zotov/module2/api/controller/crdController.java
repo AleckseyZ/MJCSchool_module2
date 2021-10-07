@@ -16,8 +16,8 @@ public interface crdController<T> {
     public T getById(@PathVariable long targetId);
 
     @RequestMapping(value = "/{targetId}", method = RequestMethod.DELETE)
-    public T delete(@PathVariable long targetId);
+    public boolean delete(@PathVariable long targetId);
 
     @PostMapping
-    public T save(T object);
+    public boolean save(T object);
 }
