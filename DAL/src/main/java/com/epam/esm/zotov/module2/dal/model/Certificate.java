@@ -2,6 +2,7 @@ package com.epam.esm.zotov.module2.dal.model;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 public class Certificate {
     private long certificateId;
@@ -10,18 +11,20 @@ public class Certificate {
     private short duration;
     private Instant createDate;
     private Instant lastUpdateDate;
+    private List<String> tags;
 
     public Certificate() {
     }
 
     public Certificate(long certificateId, String description, BigDecimal price, short duration, Instant createDate,
-            Instant lastUpdateDate) {
+            Instant lastUpdateDate, List<String> tags) {
         this.certificateId = certificateId;
         this.description = description;
         this.price = price;
         this.duration = duration;
         this.createDate = createDate;
         this.lastUpdateDate = lastUpdateDate;
+        this.tags = tags;
     }
 
     public long getCertificateId() {
@@ -72,6 +75,14 @@ public class Certificate {
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -82,6 +93,7 @@ public class Certificate {
         result = prime * result + duration;
         result = prime * result + ((lastUpdateDate == null) ? 0 : lastUpdateDate.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
+        result = prime * result + ((tags == null) ? 0 : tags.hashCode());
         return result;
     }
 
@@ -118,6 +130,11 @@ public class Certificate {
                 return false;
         } else if (!price.equals(other.price))
             return false;
+        if (tags == null) {
+            if (other.tags != null)
+                return false;
+        } else if (!tags.equals(other.tags))
+            return false;
         return true;
     }
 
@@ -125,7 +142,6 @@ public class Certificate {
     public String toString() {
         return "Certificate [certificateId=" + certificateId + ", createDate=" + createDate + ", description="
                 + description + ", duration=" + duration + ", lastUpdateDate=" + lastUpdateDate + ", price=" + price
-                + "]";
+                + ", tags=" + tags + "]";
     }
-
 }

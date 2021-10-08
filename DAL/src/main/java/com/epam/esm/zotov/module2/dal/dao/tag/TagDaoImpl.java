@@ -15,13 +15,15 @@ import org.springframework.stereotype.Repository;
 @PropertySource("classpath:db.properties")
 public class TagDaoImpl implements TagDao {
     @Value("tag.sql.all")
-    private String getAllQuerry;
+    private String getAllQuery;
     @Value("tag.sql.findById")
-    private String findByIdQuerry;
+    private String findByIdQuery;
+    @Value("tag.sql.findByName")
+    private String findByNameQuery;
     @Value("tag.sql.insert")
-    private String insertQuerry;
+    private String insertQuery;
     @Value("tag.sql.delete")
-    private String deleteQuerry;
+    private String deleteQuery;
     @Autowired
     private TagMapper tagMapper;
     @Autowired
@@ -29,25 +31,31 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public List<Tag> getAll() {
-        List<Tag> tags = jdbcTemplate.query(getAllQuerry, tagMapper);
+        List<Tag> tags = jdbcTemplate.query(getAllQuery, tagMapper);
         return tags;
     }
 
     @Override
     public Optional<Tag> getById(long id) {
-        Optional<Tag> tag = Optional.of(jdbcTemplate.queryForObject(findByIdQuerry, tagMapper, id));
+        Optional<Tag> tag = Optional.of(jdbcTemplate.queryForObject(findByIdQuery, tagMapper, id));
+        return tag;
+    }
+
+    @Override
+    public Optional<Tag> getByName(String name) {
+        Optional<Tag> tag = Optional.of(jdbcTemplate.queryForObject(findByNameQuery, tagMapper, name));
         return tag;
     }
 
     @Override
     public boolean save(Tag object) {
-        long result = jdbcTemplate.update(insertQuerry, object.getTagName());
+        long result = jdbcTemplate.update(insertQuery, object.getTagName());
         return result == 1;
     }
 
     @Override
     public boolean delete(long id) {
-        long result = jdbcTemplate.update(deleteQuerry, id);
+        long result = jdbcTemplate.update(deleteQuery, id);
         return result == 1;
     }
 }

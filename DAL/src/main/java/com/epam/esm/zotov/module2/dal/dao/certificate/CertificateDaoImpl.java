@@ -15,13 +15,15 @@ import org.springframework.stereotype.Repository;
 @PropertySource("classpath:db.properties")
 public class CertificateDaoImpl implements CertificateDao {
     @Value("cert.sql.all")
-    private String getAllQuerry;
+    private String getAllQuery;
     @Value("cert.sql.findById")
-    private String findByIdQuerry;
+    private String findByIdQuery;
     @Value("cert.sql.insert")
-    private String insertQuerry;
+    private String insertQuery;
     @Value("cert.sql.delete")
-    private String deleteQuerry;
+    private String deleteQuery;
+    @Value("cert.sql.tags")
+    private String tagsQuery;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -29,27 +31,33 @@ public class CertificateDaoImpl implements CertificateDao {
 
     @Override
     public List<Certificate> getAll() {
-        List<Certificate> certificates = jdbcTemplate.query(getAllQuerry, certificateMapper);
+        List<Certificate> certificates = jdbcTemplate.query(getAllQuery, certificateMapper);
+
+        certificates.stream().forEach(certificate -> certificate
+                .setTags(jdbcTemplate.queryForList(tagsQuery, String.class, certificate.getCertificateId())));
         return certificates;
     }
 
     @Override
     public Optional<Certificate> getById(long id) {
         Optional<Certificate> certificate = Optional
-                .of(jdbcTemplate.queryForObject(findByIdQuerry, certificateMapper, id));
+                .of(jdbcTemplate.queryForObject(findByIdQuery, certificateMapper, id));
+
+        certificate.ifPresent(
+                cert -> cert.setTags(jdbcTemplate.queryForList(tagsQuery, String.class, cert.getCertificateId())));
         return certificate;
     }
 
     @Override
     public boolean save(Certificate object) {
-        long result = jdbcTemplate.update(insertQuerry, object.getDescription(), object.getPrice(), object.getDuration(),
+        long result = jdbcTemplate.update(insertQuery, object.getDescription(), object.getPrice(), object.getDuration(),
                 object.getCreateDate(), object.getLastUpdateDate());
         return result == 1;
     }
 
     @Override
     public boolean delete(long id) {
-        long result = jdbcTemplate.update(deleteQuerry, id);
+        long result = jdbcTemplate.update(deleteQuery, id);
         return result == 1;
     }
 
