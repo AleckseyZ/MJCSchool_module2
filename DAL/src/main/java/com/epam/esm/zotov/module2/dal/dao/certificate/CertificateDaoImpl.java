@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@PropertySource("classpath:db.properties")
+@PropertySource("classpath:certificate.sql.properties")
 public class CertificateDaoImpl implements CertificateDao {
     @Value("cert.sql.all")
     private String getAllQuery;

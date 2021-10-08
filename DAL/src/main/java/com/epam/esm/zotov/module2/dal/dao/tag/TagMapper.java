@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource("classpath:db.properties")
+@PropertySource("classpath:tag.sql.properties")
 public class TagMapper implements RowMapper<Tag> {
     @Value("tag.id")
     private String idColumn;

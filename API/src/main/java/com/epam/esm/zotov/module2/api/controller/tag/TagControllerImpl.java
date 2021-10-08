@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tags")
 public class TagControllerImpl implements TagController {
     @Autowired
-    TagService tagService;
+    private TagService tagService;
 
     @Override
     public List<Tag> getAll() {

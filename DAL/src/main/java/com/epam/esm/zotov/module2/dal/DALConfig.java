@@ -15,13 +15,13 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @PropertySource("classpath:db.properties")
 public class DALConfig {
     @Value("${driver}")
-    String driver;
+    private String driver;
     @Value("${url}")
-    String url;
+    private String url;
     @Value("${user}")
-    String user;
+    private String user;
     @Value("${password}")
-    String password;
+    private String password;
 
     @Bean
     public DataSource dataSource() {

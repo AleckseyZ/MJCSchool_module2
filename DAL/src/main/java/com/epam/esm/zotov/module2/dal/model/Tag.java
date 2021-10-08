@@ -60,5 +60,4 @@ public class Tag {
     public String toString() {
         return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
     }
-
 }

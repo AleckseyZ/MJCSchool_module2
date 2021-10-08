@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource("classpath:db.properties")
+@PropertySource("classpath:certificate.sql.properties")
 public class CertificateMapper implements RowMapper<Certificate> {
     @Value("certificate.id")
     private String idColumn;

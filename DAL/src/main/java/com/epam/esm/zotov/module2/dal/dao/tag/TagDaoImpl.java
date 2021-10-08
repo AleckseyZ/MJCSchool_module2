@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@PropertySource("classpath:db.properties")
+@PropertySource("classpath:tag.sql.properties")
 public class TagDaoImpl implements TagDao {
     @Value("tag.sql.all")
     private String getAllQuery;
