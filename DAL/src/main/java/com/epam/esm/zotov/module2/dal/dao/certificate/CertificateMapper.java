@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 public class CertificateMapper implements RowMapper<Certificate> {
     @Value("certificate.id")
     private String idColumn;
+    @Value("certificate.name")
+    private String nameColumn;
     @Value("certificate.description")
     private String descriptionColumn;
     @Value("certificate.price")
@@ -31,6 +33,7 @@ public class CertificateMapper implements RowMapper<Certificate> {
         Certificate certificate = new Certificate();
 
         certificate.setCertificateId(rs.getInt(idColumn));
+        certificate.setName(rs.getString(nameColumn));
         certificate.setDescription(rs.getString(descriptionColumn));
         certificate.setPrice(rs.getBigDecimal(priceColumn));
         certificate.setDuration(rs.getShort(durationColumn));

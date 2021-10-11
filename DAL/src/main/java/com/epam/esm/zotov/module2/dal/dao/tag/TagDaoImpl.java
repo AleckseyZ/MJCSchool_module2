@@ -14,15 +14,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 @PropertySource("classpath:tag.sql.properties")
 public class TagDaoImpl implements TagDao {
-    @Value("tag.sql.all")
+    @Value("${tag.sql.all}")
     private String getAllQuery;
-    @Value("tag.sql.findById")
+    @Value("${tag.sql.findById}")
     private String findByIdQuery;
-    @Value("tag.sql.findByName")
+    @Value("${tag.sql.findByName}")
     private String findByNameQuery;
-    @Value("tag.sql.insert")
+    @Value("${tag.sql.insert}")
     private String insertQuery;
-    @Value("tag.sql.delete")
+    @Value("${tag.sql.delete}")
     private String deleteQuery;
     @Autowired
     private TagMapper tagMapper;
@@ -49,13 +49,13 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public boolean save(Tag object) {
-        long result = jdbcTemplate.update(insertQuery, object.getTagName());
+        int result = jdbcTemplate.update(insertQuery, object.getTagName());
         return result == 1;
     }
 
     @Override
     public boolean delete(long id) {
-        long result = jdbcTemplate.update(deleteQuery, id);
+        int result = jdbcTemplate.update(deleteQuery, id);
         return result == 1;
     }
 }

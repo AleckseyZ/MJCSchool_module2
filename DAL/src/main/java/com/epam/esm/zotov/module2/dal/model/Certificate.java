@@ -2,10 +2,12 @@ package com.epam.esm.zotov.module2.dal.model;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Certificate {
     private long certificateId;
+    private String name;
     private String description;
     private BigDecimal price;
     private short duration;
@@ -14,11 +16,13 @@ public class Certificate {
     private List<String> tags;
 
     public Certificate() {
+        tags = new ArrayList<String>();
     }
 
-    public Certificate(long certificateId, String description, BigDecimal price, short duration, Instant createDate,
-            Instant lastUpdateDate, List<String> tags) {
+    public Certificate(long certificateId, String name, String description, BigDecimal price, short duration,
+            Instant createDate, Instant lastUpdateDate, List<String> tags) {
         this.certificateId = certificateId;
+        this.name = name;
         this.description = description;
         this.price = price;
         this.duration = duration;
@@ -33,6 +37,14 @@ public class Certificate {
 
     public void setCertificateId(long certificateId) {
         this.certificateId = certificateId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -92,6 +104,7 @@ public class Certificate {
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + duration;
         result = prime * result + ((lastUpdateDate == null) ? 0 : lastUpdateDate.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
         result = prime * result + ((tags == null) ? 0 : tags.hashCode());
         return result;
@@ -125,6 +138,11 @@ public class Certificate {
                 return false;
         } else if (!lastUpdateDate.equals(other.lastUpdateDate))
             return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
         if (price == null) {
             if (other.price != null)
                 return false;
@@ -141,7 +159,7 @@ public class Certificate {
     @Override
     public String toString() {
         return "Certificate [certificateId=" + certificateId + ", createDate=" + createDate + ", description="
-                + description + ", duration=" + duration + ", lastUpdateDate=" + lastUpdateDate + ", price=" + price
-                + ", tags=" + tags + "]";
+                + description + ", duration=" + duration + ", lastUpdateDate=" + lastUpdateDate + ", name=" + name
+                + ", price=" + price + ", tags=" + tags + "]";
     }
 }

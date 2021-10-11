@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface CertificateController extends CrdController<Certificate> {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public List<Object> search(@RequestParam Map<String,String> requestParams);
+    public List<Certificate> search(@RequestParam Map<String,String> requestParams);
 
     @PutMapping
     public boolean selectiveUpdate(@RequestBody Certificate updatedCertificate);
