@@ -7,5 +7,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.epam.esm.zotov.module2.api")
-public class APIWebConfig {
+public class ApiWebConfig {
 }

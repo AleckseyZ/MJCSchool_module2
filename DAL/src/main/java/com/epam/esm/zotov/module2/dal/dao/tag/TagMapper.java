@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:tag.sql.properties")
 public class TagMapper implements RowMapper<Tag> {
-    @Value("tag.id")
+    @Value("${tag.id}")
     private String idColumn;
-    @Value("tag.name")
+    @Value("${tag.name}")
     private String nameColumn;
 
     @Override

@@ -8,6 +8,7 @@ import com.epam.esm.zotov.module2.dal.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -37,13 +38,15 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public Optional<Tag> getById(long id) {
-        Optional<Tag> tag = Optional.of(jdbcTemplate.queryForObject(findByIdQuery, tagMapper, id));
+        Optional<Tag> tag = Optional
+                .ofNullable(DataAccessUtils.singleResult(jdbcTemplate.query(findByIdQuery, tagMapper, id)));
         return tag;
     }
 
     @Override
     public Optional<Tag> getByName(String name) {
-        Optional<Tag> tag = Optional.of(jdbcTemplate.queryForObject(findByNameQuery, tagMapper, name));
+        Optional<Tag> tag = Optional
+                .ofNullable(DataAccessUtils.singleResult(jdbcTemplate.query(findByNameQuery, tagMapper, name)));
         return tag;
     }
 

@@ -53,7 +53,7 @@ public class CertificateDaoImpl implements CertificateDao {
     @Override
     public Optional<Certificate> getById(long id) {
         Optional<Certificate> certificate = Optional
-                .of(jdbcTemplate.queryForObject(findByIdSQL, certificateMapper, id));
+                .ofNullable(jdbcTemplate.queryForObject(findByIdSQL, certificateMapper, id));
 
         certificate.ifPresent(
                 cert -> cert.setTags(jdbcTemplate.queryForList(getTagsSQL, String.class, cert.getCertificateId())));
@@ -93,7 +93,6 @@ public class CertificateDaoImpl implements CertificateDao {
         });
     }
 
-    //TODO maybe refractor this
     private void updateTags(Certificate certificate) {
         List<String> currentTags = jdbcTemplate.queryForList(getTagsSQL, String.class, certificate.getCertificateId());
         List<String> updatedTags = certificate.getTags();

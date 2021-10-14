@@ -13,19 +13,19 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:certificate.sql.properties")
 public class CertificateMapper implements RowMapper<Certificate> {
-    @Value("certificate.id")
+    @Value("${cert.id}")
     private String idColumn;
-    @Value("certificate.name")
+    @Value("${cert.name}")
     private String nameColumn;
-    @Value("certificate.description")
+    @Value("${cert.description}")
     private String descriptionColumn;
-    @Value("certificate.price")
+    @Value("${cert.price}")
     private String priceColumn;
-    @Value("certificate.duration")
+    @Value("${cert.duration}")
     private String durationColumn;
-    @Value("certificate.createDate")
+    @Value("${cert.createDate}")
     private String createDateColumn;
-    @Value("certificate.updateDate")
+    @Value("${cert.updateDate}")
     private String updateDateColumn;
 
     @Override
