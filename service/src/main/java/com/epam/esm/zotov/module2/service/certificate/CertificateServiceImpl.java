@@ -2,11 +2,12 @@ package com.epam.esm.zotov.module2.service.certificate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.epam.esm.zotov.module2.dal.dao.certificate.CertificateDao;
-import com.epam.esm.zotov.module2.dal.model.Certificate;
+import com.epam.esm.zotov.module2.dataaccess.dao.certificate.CertificateDao;
+import com.epam.esm.zotov.module2.dataaccess.model.Certificate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,8 +31,12 @@ public class CertificateServiceImpl implements CertificateService {
     String ascending;
     @Value("${search.descending}")
     String descending;
-    @Autowired
     private CertificateDao certificateDao;
+
+    @Autowired
+    public CertificateServiceImpl(CertificateDao certificateDao) {
+        this.certificateDao = certificateDao;
+    }
 
     @Override
     public List<Certificate> getAll() {
@@ -44,8 +49,8 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public boolean save(Certificate object) {
-        return certificateDao.save(object);
+    public boolean save(Certificate certificate) {
+        return certificateDao.save(certificate);
     }
 
     @Override
@@ -64,19 +69,19 @@ public class CertificateServiceImpl implements CertificateService {
         List<Certificate> fittingCertificates = certificateDao.getAll();
 
         String tagName = searchParams.get(tagNameParam);
-        if (tagName != null) {
+        if (Objects.nonNull(tagName)) {
             fittingCertificates = fittingCertificates.stream()
                     .filter(certificate -> certificate.getTags().contains(tagName)).collect(Collectors.toList());
         }
 
         String name = searchParams.get(nameParam);
-        if (name != null) {
+        if (Objects.nonNull(name)) {
             fittingCertificates = fittingCertificates.stream()
                     .filter(certificate -> certificate.getName().contains(name)).collect(Collectors.toList());
         }
 
         String description = searchParams.get(descriptionParam);
-        if (description != null) {
+        if (Objects.nonNull(description)) {
             fittingCertificates = fittingCertificates.stream()
                     .filter(certificate -> certificate.getDescription().contains(description))
                     .collect(Collectors.toList());

@@ -1,2 +1,2 @@
 rootProject.name = "RESTBasics"
-include("api", "dal", "service")
+include("api", "service","dataAccess")

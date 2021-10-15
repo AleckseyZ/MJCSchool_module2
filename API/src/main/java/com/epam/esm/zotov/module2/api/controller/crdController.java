@@ -23,7 +23,7 @@ public interface CrdController<T> {
      * @return <code>List</code> of all objects or an error message.
      */
     @GetMapping
-    public List<T> getAll();
+    List<T> getAll();
 
     /**
      * Gets an object with a specified id. Might return an error message if no
@@ -34,7 +34,7 @@ public interface CrdController<T> {
      * 
      */
     @RequestMapping(value = "/{targetId}", method = RequestMethod.GET)
-    public T getById(@PathVariable long targetId);
+    T getById(@PathVariable long targetId);
 
     /**
      * Deletes object with a specified id.
@@ -43,7 +43,7 @@ public interface CrdController<T> {
      * @return <code>true</code> if deletion was successful.
      */
     @RequestMapping(value = "/{targetId}", method = RequestMethod.DELETE)
-    public boolean delete(@PathVariable long targetId);
+    boolean delete(@PathVariable long targetId);
 
     /**
      * Saves object of <code>T</code> type passed in the body.
@@ -52,5 +52,5 @@ public interface CrdController<T> {
      * @return <code>true</code> if object was successfuly saved
      */
     @PostMapping
-    public boolean save(@RequestBody T object);
+    boolean save(@RequestBody T object);
 }

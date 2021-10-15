@@ -3,7 +3,7 @@ package com.epam.esm.zotov.module2.service.certificate;
 import java.util.List;
 import java.util.Map;
 
-import com.epam.esm.zotov.module2.dal.model.Certificate;
+import com.epam.esm.zotov.module2.dataaccess.model.Certificate;
 import com.epam.esm.zotov.module2.service.CrdService;
 
 /**
@@ -19,7 +19,7 @@ public interface CertificateService extends CrdService<Certificate> {
      * @param updatedCertificate <code>Certificate</code> with modified fields.
      * @return <code>ture</code> if update is successful.
      */
-    public boolean selectiveUpdate(Certificate updatedCertificate);
+    boolean selectiveUpdate(Certificate updatedCertificate);
 
     /**
      * Searches for the <code>Certificate</code> objects fitting passed in the
@@ -30,5 +30,5 @@ public interface CertificateService extends CrdService<Certificate> {
      * @return <code>List</code> of <code>Certificate</code> objects matching search
      *         criteria.
      */
-    public List<Certificate> search(Map<String, String> searchParams);
+    List<Certificate> search(Map<String, String> searchParams);
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+//TODO Expand exception advice
 @RestControllerAdvice
 @PropertySource("classpath:error.properties")
 public class LocalizedGeneralExceptionAdvice {
@@ -31,9 +32,12 @@ public class LocalizedGeneralExceptionAdvice {
     private String error500;
     @Value("${error.code.500}")
     private String error500Code;
+    private MessageSource messageSource;
 
     @Autowired
-    private MessageSource messageSource;
+    public LocalizedGeneralExceptionAdvice(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @ExceptionHandler({ TypeMismatchException.class, MissingServletRequestParameterException.class,
             IllegalArgumentException.class })

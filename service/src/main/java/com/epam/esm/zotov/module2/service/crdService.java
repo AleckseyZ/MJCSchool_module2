@@ -14,14 +14,14 @@ public interface CrdService<T> {
      * @param id - id of desired object.
      * @return <code>Optional</code> containing object with specified id.
      */
-    public Optional<T> getById(long id);
+    Optional<T> getById(long id);
 
     /**
      * Gets <code>List</code> of all objects with type <code>T</code>.
      * 
      * @return <code>List</code> of all <code>T</code> objects.
      */
-    public List<T> getAll();
+    List<T> getAll();
 
     /**
      * Saves <code>T</code> object. Returns boolean indicating whether saving is
@@ -30,7 +30,7 @@ public interface CrdService<T> {
      * @param object - object to be saved.
      * @return <code>true</code> if object successfuly saved.
      */
-    public boolean save(T object);
+    boolean save(T object);
 
     /**
      * Deletes object with specified id. Returns boolean indicating whether deletion
@@ -39,5 +39,5 @@ public interface CrdService<T> {
      * @param object - object to be deleted.
      * @return <code>true</code> if object successfuly deleted.
      */
-    public boolean delete(long id);
+    boolean delete(long id);
 }

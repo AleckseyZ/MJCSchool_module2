@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.epam.esm.zotov.module2.api.exception.NoResourceFoundException;
-import com.epam.esm.zotov.module2.dal.model.Tag;
+import com.epam.esm.zotov.module2.dataaccess.model.Tag;
 import com.epam.esm.zotov.module2.service.tag.TagService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/tags")
 public class TagControllerImpl implements TagController {
-    @Autowired
     private TagService tagService;
+
+    @Autowired
+    public TagControllerImpl(TagService tagService) {
+        this.tagService = tagService;
+    }
 
     @Override
     public List<Tag> getAll() {

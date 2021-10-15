@@ -1,5 +1,6 @@
 package com.epam.esm.zotov.module2.api.exception;
 
+//TODO Maaaaaybe remake it with lombok
 public class RestExceptionResponse {
     private String message;
     private String errorCode;

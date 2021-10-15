@@ -3,16 +3,20 @@ package com.epam.esm.zotov.module2.service.tag;
 import java.util.List;
 import java.util.Optional;
 
-import com.epam.esm.zotov.module2.dal.dao.tag.TagDao;
-import com.epam.esm.zotov.module2.dal.model.Tag;
+import com.epam.esm.zotov.module2.dataaccess.dao.tag.TagDao;
+import com.epam.esm.zotov.module2.dataaccess.model.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TagServiceImpl implements TagService {
-    @Autowired
     private TagDao tagDao;
+
+    @Autowired
+    public TagServiceImpl(TagDao tagDao) {
+        this.tagDao = tagDao;
+    }
 
     @Override
     public List<Tag> getAll() {
@@ -25,8 +29,8 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public boolean save(Tag object) {
-        return tagDao.save(object);
+    public boolean save(Tag tag) {
+        return tagDao.save(tag);
     }
 
     @Override

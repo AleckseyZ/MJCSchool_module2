@@ -4,9 +4,10 @@ plugins {
 }
 
 dependencies {
-    implementation("org.springframework:spring-web:5.3.10")
-    implementation("org.springframework:spring-webmvc:5.3.10")
-    compileOnly("javax.servlet:javax.servlet-api:4.0.1")
+    compileOnly("javax.servlet:javax.servlet-api:${Versions.javaxVer}")
+    implementation("org.springframework:spring-web:${Versions.springVer}")
+    implementation("org.springframework:spring-webmvc:${Versions.springVer}")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${Versions.jacksonVer}")
     implementation(project(":service"))
-    implementation(project(":dal"))
+    implementation(project(":dataAccess"))
 }

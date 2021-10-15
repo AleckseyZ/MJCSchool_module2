@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.epam.esm.zotov.module2.api.exception.NoResourceFoundException;
-import com.epam.esm.zotov.module2.dal.model.Certificate;
+import com.epam.esm.zotov.module2.dataaccess.model.Certificate;
 import com.epam.esm.zotov.module2.service.certificate.CertificateService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/certificates")
 public class CertificateControllerImpl implements CertificateController {
-    @Autowired
     private CertificateService certificateService;
+
+    @Autowired
+    public CertificateControllerImpl(CertificateService certificateService) {
+        this.certificateService = certificateService;
+    }
 
     @Override
     public List<Certificate> getAll() {

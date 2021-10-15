@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.epam.esm.zotov.module2.api.controller.CrdController;
-import com.epam.esm.zotov.module2.dal.model.Certificate;
+import com.epam.esm.zotov.module2.dataaccess.model.Certificate;
 
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,13 +27,16 @@ public interface CertificateController extends CrdController<Certificate> {
      * @return <code>List</code> of fitting certificates.
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public List<Certificate> search(@RequestParam Map<String, String> searchParams);
+    List<Certificate> search(@RequestParam Map<String, String> searchParams);
 
     /**
+     * Updates modifyed fields of <code>Certificate</code> in the data source with
+     * values from passed <code>updatedCertificate</code>.
+     * 
      * @param updatedCertificate updated object. Must contain id. Unupdated fields
      *                           might be <code>null</code>
      * @return <code>true</code> if object was successfuly updated
      */
     @PutMapping
-    public boolean selectiveUpdate(@RequestBody Certificate updatedCertificate);
+    boolean selectiveUpdate(@RequestBody Certificate updatedCertificate);
 }
