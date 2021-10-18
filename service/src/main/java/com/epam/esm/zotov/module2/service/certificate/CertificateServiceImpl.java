@@ -63,30 +63,77 @@ public class CertificateServiceImpl implements CertificateService {
         return certificateDao.selectiveUpdate(updatedCertificate);
     }
 
-    // TODO Refractor this
     @Override
     public List<Certificate> search(Map<String, String> searchParams) {
-        List<Certificate> fittingCertificates = certificateDao.getAll();
+        List<Certificate> filteredCertificates = certificateDao.getAll();
 
         String tagName = searchParams.get(tagNameParam);
         if (Objects.nonNull(tagName)) {
-            fittingCertificates = fittingCertificates.stream()
-                    .filter(certificate -> certificate.getTags().contains(tagName)).collect(Collectors.toList());
+            filteredCertificates = searchByTagName(filteredCertificates, tagName);
         }
 
         String name = searchParams.get(nameParam);
         if (Objects.nonNull(name)) {
-            fittingCertificates = fittingCertificates.stream()
-                    .filter(certificate -> certificate.getName().contains(name)).collect(Collectors.toList());
+            filteredCertificates = searchByName(filteredCertificates, name);
         }
 
         String description = searchParams.get(descriptionParam);
         if (Objects.nonNull(description)) {
-            fittingCertificates = fittingCertificates.stream()
-                    .filter(certificate -> certificate.getDescription().contains(description))
-                    .collect(Collectors.toList());
+            filteredCertificates = searchByDescription(filteredCertificates, description);
         }
 
+        String dateSort = searchParams.get(sortByDateParam);
+        if (Objects.nonNull(dateSort)) {
+            filteredCertificates = sortByDate(filteredCertificates, dateSort);
+        }
+
+        String nameSort = searchParams.get(sortByNameParam);
+        if (Objects.nonNull(nameSort)) {
+            filteredCertificates = sortByName(filteredCertificates, nameSort);
+        }
+
+        return filteredCertificates;
+    }
+
+    private List<Certificate> searchByTagName(List<Certificate> certificates, String tagName) {
+        List<Certificate> fittingCertificates = certificates.stream()
+                .filter(certificate -> certificate.getTags().contains(tagName)).collect(Collectors.toList());
         return fittingCertificates;
+    }
+
+    private List<Certificate> searchByName(List<Certificate> certificates, String name) {
+        List<Certificate> fittingCertificates = certificates.stream()
+                .filter(certificate -> certificate.getName().contains(name)).collect(Collectors.toList());
+        return fittingCertificates;
+    }
+
+    private List<Certificate> searchByDescription(List<Certificate> certificates, String description) {
+        List<Certificate> fittingCertificates = certificates.stream()
+                .filter(certificate -> certificate.getDescription().contains(description)).collect(Collectors.toList());
+        return fittingCertificates;
+    }
+
+    private List<Certificate> sortByDate(List<Certificate> certificates, String sortType) {
+        if (sortType.equals(ascending)) {
+            certificates = certificates.stream()
+                    .sorted((cert1, cert2) -> cert1.getCreateDate().compareTo(cert2.getCreateDate()))
+                    .collect(Collectors.toList());
+        } else if (sortType.equals(descending)) {
+            certificates = certificates.stream()
+                    .sorted((cert1, cert2) -> cert2.getCreateDate().compareTo(cert1.getCreateDate()))
+                    .collect(Collectors.toList());
+        }
+        return certificates;
+    }
+
+    private List<Certificate> sortByName(List<Certificate> certificates, String sortType) {
+        if (sortType.equals(ascending)) {
+            certificates = certificates.stream().sorted((cert1, cert2) -> cert1.getName().compareTo(cert2.getName()))
+                    .collect(Collectors.toList());
+        } else if (sortType.equals(descending)) {
+            certificates = certificates.stream().sorted((cert1, cert2) -> cert2.getName().compareTo(cert1.getName()))
+                    .collect(Collectors.toList());
+        }
+        return certificates;
     }
 }

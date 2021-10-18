@@ -19,14 +19,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-//TODO test search after refractoring
 @ExtendWith(MockitoExtension.class)
 public class CertificateServiceImplTest {
     @InjectMocks
     CertificateServiceImpl certificateService;
     @Mock
     CertificateDao certificateDao;
-    Certificate testCertificate = new Certificate(1, null, null, null, (short) 0, null, null, null);
+    Certificate testCertificate = new Certificate(1L, null, null, null, null, null, null, null);
 
     @Test
     void getAllTest() {

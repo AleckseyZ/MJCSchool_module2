@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 @ComponentScan("com.epam.esm.zotov.module2.dataacces")
 @PropertySource("classpath:db.properties")
-public class DALConfig {
+public class DataAccessConfig {
     @Value("${driver}")
     private String driver;
     @Value("${url}")
@@ -29,28 +29,27 @@ public class DALConfig {
     @Profile("prod")
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driver);
-        dataSource.setUrl(url);
-        dataSource.setUsername(user);
-        dataSource.setPassword(password);
-        return dataSource;
+        return dataSourceBuilder(driver, url, user, password);
     }
 
     @Profile("dev")
     @Bean
     public DataSource devDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driver);
-        dataSource.setUrl(testUrl);
-        dataSource.setUsername(user);
-        dataSource.setPassword(password);
-        return dataSource;
+        return dataSourceBuilder(driver, testUrl, user, password);
     }
 
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate;
+    }
+
+    private DataSource dataSourceBuilder(String driver, String url, String user, String password) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
+        dataSource.setUsername(user);
+        dataSource.setPassword(password);
+        return dataSource;
     }
 }

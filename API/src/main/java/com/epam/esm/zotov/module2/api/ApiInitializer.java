@@ -7,8 +7,6 @@ import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class ApiInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-    private static final String activeProfile = "dev";
-
     @Override
     protected String[] getServletMappings() {
         return new String[] { "/" };
@@ -27,7 +25,7 @@ public class ApiInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected WebApplicationContext createRootApplicationContext() {
         WebApplicationContext context = super.createRootApplicationContext();
-        ((ConfigurableEnvironment) context.getEnvironment()).setActiveProfiles(activeProfile);
+        ((ConfigurableEnvironment) context.getEnvironment()).setActiveProfiles(ApiProfile.DEV.toString());
         return context;
     }
 

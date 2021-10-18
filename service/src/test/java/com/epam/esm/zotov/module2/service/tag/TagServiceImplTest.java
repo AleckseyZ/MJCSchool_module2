@@ -25,7 +25,7 @@ public class TagServiceImplTest {
     private TagServiceImpl tagService;
     @Mock
     private TagDao tagDao;
-    private Tag testTag = new Tag(1, "TEST");
+    private Tag testTag = new Tag(1L, "TEST");
 
     @Test
     void getAllTest() {

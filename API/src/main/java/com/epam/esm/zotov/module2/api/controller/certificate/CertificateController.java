@@ -37,6 +37,6 @@ public interface CertificateController extends CrdController<Certificate> {
      *                           might be <code>null</code>
      * @return <code>true</code> if object was successfuly updated
      */
-    @PutMapping
+    @PutMapping()
     boolean selectiveUpdate(@RequestBody Certificate updatedCertificate);
 }

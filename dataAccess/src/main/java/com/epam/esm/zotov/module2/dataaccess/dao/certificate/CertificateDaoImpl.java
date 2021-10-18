@@ -1,6 +1,10 @@
 package com.epam.esm.zotov.module2.dataaccess.dao.certificate;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -11,7 +15,11 @@ import com.epam.esm.zotov.module2.dataaccess.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +42,8 @@ public class CertificateDaoImpl implements CertificateDao {
     private String addTagSQL;
     @Value("${cert.sql.removeTag}")
     private String removeTagSQL;
+    @Value("${cert.id}")
+    private String certIdColumn;
     private JdbcTemplate jdbcTemplate;
     private CertificateMapper certificateMapper;
     private TagDao tagDao;
@@ -58,7 +68,7 @@ public class CertificateDaoImpl implements CertificateDao {
     @Override
     public Optional<Certificate> getById(long id) {
         Optional<Certificate> certificate = Optional
-                .ofNullable(jdbcTemplate.queryForObject(findByIdSQL, certificateMapper, id));
+                .ofNullable(DataAccessUtils.singleResult(jdbcTemplate.query(findByIdSQL, certificateMapper, id)));
 
         certificate.ifPresent(
                 cert -> cert.setTags(jdbcTemplate.queryForList(getTagsSQL, String.class, cert.getCertificateId())));
@@ -67,18 +77,30 @@ public class CertificateDaoImpl implements CertificateDao {
 
     @Override
     @Transactional
-    public boolean save(Certificate object) {
-        int affectedRows = jdbcTemplate.update(insertSQL, object.getName(), object.getDescription(), object.getPrice(),
-                object.getDuration(), object.getCreateDate(), object.getLastUpdateDate());
-        saveTags(object);
-        boolean result = (expectedSaveOrDeleteResutNumber == affectedRows);
-        return result;
+    public boolean save(Certificate certificate) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int affectedRows = jdbcTemplate.update(new PreparedStatementCreator() {
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement statement = connection.prepareStatement(insertSQL, new String[] { certIdColumn });
+                statement.setString(1, certificate.getName());
+                statement.setString(2, certificate.getDescription());
+                statement.setBigDecimal(3, certificate.getPrice());
+                statement.setShort(4, certificate.getDuration());
+                return statement;
+            }
+        }, keyHolder);
+
+        certificate.setCertificateId(keyHolder.getKey().longValue());
+        saveTags(certificate);
+
+        boolean isSuccessful = (expectedSaveOrDeleteResutNumber == affectedRows);
+        return isSuccessful;
     }
 
     @Override
     public boolean delete(long id) {
-        boolean result = (jdbcTemplate.update(deleteSQL, id) == expectedSaveOrDeleteResutNumber);
-        return result;
+        boolean isSuccessful = (jdbcTemplate.update(deleteSQL, id) == expectedSaveOrDeleteResutNumber);
+        return isSuccessful;
     }
 
     @Override
@@ -86,18 +108,21 @@ public class CertificateDaoImpl implements CertificateDao {
     public boolean selectiveUpdate(Certificate updatedCertificate) {
         updateTags(updatedCertificate);
         int affectedRows = jdbcTemplate.update(selectiveUpdateSQL, updatedCertificate.getName(),
-                updatedCertificate.getDescription(), updatedCertificate.getPrice(), updatedCertificate.getDuration());
-        boolean result = (expectedSaveOrDeleteResutNumber == affectedRows);
-        return result;
+                updatedCertificate.getDescription(), updatedCertificate.getPrice(), updatedCertificate.getDuration(),
+                updatedCertificate.getCertificateId());
+        boolean isSuccessful = (expectedSaveOrDeleteResutNumber == affectedRows);
+        return isSuccessful;
     }
 
     private void saveTags(Certificate certificate) {
         List<String> tags = certificate.getTags();
-        tags.stream().forEach(tag -> {
-            createTagIfNotExists(tag);
-            int tagId = tagDao.getByName(tag).get().getTagId();
-            jdbcTemplate.update(addTagSQL, certificate.getCertificateId(), tagId);
-        });
+        if (Objects.nonNull(tags)) {
+            tags.stream().forEach(tag -> {
+                createTagIfNotExists(tag);
+                long tagId = tagDao.getByName(tag).get().getTagId();
+                jdbcTemplate.update(addTagSQL, certificate.getCertificateId(), tagId);
+            });
+        }
     }
 
     private void updateTags(Certificate certificate) {

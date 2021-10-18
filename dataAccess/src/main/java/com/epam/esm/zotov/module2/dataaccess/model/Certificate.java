@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Certificate {
-    private long certificateId;
+    private Long certificateId;
     private String name;
     private String description;
     private BigDecimal price;
-    private short duration;
+    private Short duration;
     private Instant createDate;
     private Instant lastUpdateDate;
     private List<String> tags;
@@ -19,7 +19,7 @@ public class Certificate {
         tags = new ArrayList<String>();
     }
 
-    public Certificate(long certificateId, String name, String description, BigDecimal price, short duration,
+    public Certificate(Long certificateId, String name, String description, BigDecimal price, Short duration,
             Instant createDate, Instant lastUpdateDate, List<String> tags) {
         this.certificateId = certificateId;
         this.name = name;
@@ -31,11 +31,11 @@ public class Certificate {
         this.tags = tags;
     }
 
-    public long getCertificateId() {
+    public Long getCertificateId() {
         return certificateId;
     }
 
-    public void setCertificateId(long certificateId) {
+    public void setCertificateId(Long certificateId) {
         this.certificateId = certificateId;
     }
 
@@ -63,11 +63,11 @@ public class Certificate {
         this.price = price;
     }
 
-    public short getDuration() {
+    public Short getDuration() {
         return duration;
     }
 
-    public void setDuration(short duration) {
+    public void setDuration(Short duration) {
         this.duration = duration;
     }
 

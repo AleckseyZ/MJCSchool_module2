@@ -2,6 +2,8 @@ package com.epam.esm.zotov.module2.dataaccess.dao.certificate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Optional;
 
 import com.epam.esm.zotov.module2.dataaccess.model.Certificate;
 
@@ -30,10 +32,14 @@ public class CertificateMapper implements RowMapper<Certificate> {
 
     @Override
     public Certificate mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Certificate certificate = new Certificate(rs.getInt(idColumn), rs.getString(nameColumn),
+        Certificate certificate = new Certificate(rs.getLong(idColumn), rs.getString(nameColumn),
                 rs.getString(descriptionColumn), rs.getBigDecimal(priceColumn), rs.getShort(durationColumn),
-                rs.getDate(createDateColumn).toInstant(), rs.getDate(updateDateColumn).toInstant(), null);
+                rs.getTimestamp(createDateColumn).toInstant(), null, null);
+        Optional<Timestamp> updateDate = Optional.ofNullable(rs.getTimestamp(updateDateColumn));
 
+        if (updateDate.isPresent()) {
+            certificate.setLastUpdateDate(updateDate.get().toInstant());
+        }
         return certificate;
     }
 }

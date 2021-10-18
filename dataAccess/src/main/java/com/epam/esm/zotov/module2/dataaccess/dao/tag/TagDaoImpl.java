@@ -57,13 +57,13 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public boolean save(Tag object) {
-        boolean result = (expectedSaveOrDeleteResutNumber == jdbcTemplate.update(insertQuery, object.getTagName()));
-        return result;
+        boolean isSuccessful = (expectedSaveOrDeleteResutNumber == jdbcTemplate.update(insertQuery, object.getTagName()));
+        return isSuccessful;
     }
 
     @Override
     public boolean delete(long id) {
-        boolean result = (expectedSaveOrDeleteResutNumber == jdbcTemplate.update(deleteQuery, id));
-        return result;
+        boolean isSuccessful = (expectedSaveOrDeleteResutNumber == jdbcTemplate.update(deleteQuery, id));
+        return isSuccessful;
     }
 }
